@@ -1,0 +1,3 @@
+[submodule "libs/libkeccak"]
+	path = libs/libkeccak
+	url = https://github.com/maandree/libkeccak.git
