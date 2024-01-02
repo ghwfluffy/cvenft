@@ -1,6 +1,6 @@
 # CVE Collectibles
 
-**CVE**: Common Vulnerability & Exploits\
+**CVE**: Common Vulnerabilities & Exploits\
 **Collectibles**: NFTs - Non-Fungible Tokens
 
 ## Background
@@ -8,6 +8,8 @@
 Project to create a community of cyber security and web3 enthusiasts. Membership and governance is based around ownership of collectible NFTs that represent popular CVEs.
 
 ## Community
+
+Be one of the first to join the community. No NFTs have been minted so the first members to join and help grow the community will get on the ground floor and decide what CVEs are minted and how they will be distributed.
 
 ### Twitter
 
@@ -45,4 +47,4 @@ NFT holders vote in the 'conference' room on Discord on which new CVEs should be
 
 #### Address
 
-The origin wallet that mints the NFT: 0x00..00
+The origin wallet that mints the NFT: 0000064b64d8171be7b4dd53e105446d3b266451
