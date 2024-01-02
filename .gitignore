@@ -1,3 +1,6 @@
 outfile.tmp
 commit-message.txt
 *.swp
+*.swo
+genkey/*.txt
+genkey/genkey
