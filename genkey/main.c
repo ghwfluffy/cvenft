@@ -71,8 +71,12 @@ static int matchesPattern(
     if (memcmp(key->address, zeros, 2) != 0 || (key->address[2] & 0xF0))
         return 0;
 
-    // Last 6 nibbles are decimals in hex
-    for (size_t byte = 0; byte < 3; byte++)
+    // Ends with 2 '0' in hex
+    if (memcmp(key->address + sizeof(key->address) - 1, zeros, 1) != 0)
+        return 0;
+
+    // Last 4 nibbles before that are decimals in hex
+    for (size_t byte = 1; byte < 3; byte++)
     {
         unsigned char lhs = key->address[sizeof(key->address) - byte - 1]>>4;
         unsigned char rhs = key->address[sizeof(key->address) - byte - 1] & 0x0F;
@@ -87,20 +91,30 @@ static void printKey(
     EC_KEY *eckey,
     struct Key *key)
 {
-    printf("Private: ");
-    for (size_t ui = 0; ui < sizeof(key->priv); ui++)
-        printf("%02hhX", key->priv[ui]);
-    printf("\n");
+    time_t now = time(NULL);
+    char szOutput[64] = {};
+    snprintf(szOutput, sizeof(szOutput), "keys/%lld.txt", (long long)now);
+    FILE *fp = fopen(szOutput, "w");
 
-    printf("Public: ");
+    fprintf(fp, "Private: ");
+    for (size_t ui = 0; ui < sizeof(key->priv); ui++)
+        fprintf(fp, "%02hhX", key->priv[ui]);
+    fprintf(fp, "\n");
+
+    fprintf(fp, "Public: ");
     for (size_t ui = 0; ui < key->pubLen; ui++)
-        printf("%02hhX", key->pub[ui]);
-    printf("\n");
+        fprintf(fp, "%02hhX", key->pub[ui]);
+    fprintf(fp, "\n");
 
     printf("Address: ");
+    fprintf(fp, "Address: ");
     for (size_t ui = 0; ui < sizeof(key->address); ui++)
+    {
         printf("%02hhX", key->address[ui]);
+        fprintf(fp, "%02hhX", key->address[ui]);
+    }
     printf("\n");
+    fprintf(fp, "\n");
 
     EC_KEY *dup = EC_KEY_dup(eckey);
     EVP_PKEY *pkey = EVP_PKEY_new();
@@ -109,12 +123,13 @@ static void printKey(
     unsigned char data[2048] = {};
     unsigned char *p = data;
     size_t len = i2d_PrivateKey(pkey, &p);
-    printf("DER: ");
+    fprintf(fp, "DER: ");
     for (size_t ui = 0; ui < len; ui++)
-        printf("%02hhX", data[ui]);
-    printf("\n");
+        fprintf(fp, "%02hhX", data[ui]);
+    fprintf(fp, "\n");
 
     EVP_PKEY_free(pkey);
+    fclose(fp);
 }
 
 static void *runThread(void *pv)
@@ -142,7 +157,7 @@ static void *runThread(void *pv)
         if (matchesPattern(&wallet))
             printKey(key, &wallet);
 
-        if (threadid == 0 && ++ui % 10000 == 0)
+        if (threadid == 0 && ++ui % 100000 == 0)
             printf("%zu\n", ui * NUM_THREADS);
     }
 

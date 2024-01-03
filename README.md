@@ -29,7 +29,7 @@ Currently the project exists as an informal collection of users, but the goal is
 
 ## NFT Collection
 
-The NFT collection can be seen on [OpenSea](TODO).
+The NFT collection will not be minted until enough community buy in.
 
 ### Traits
 
@@ -47,4 +47,4 @@ NFT holders vote in the 'conference' room on Discord on which new CVEs should be
 
 #### Address
 
-The origin wallet that mints the NFT: 0000064b64d8171be7b4dd53e105446d3b266451
+For absolutely no reason other than for fun, the genkey application is creating cool wallet addresses that can be used to mint the NFT collections. The shortened address will be all numbers and mostly zeros like 0x00000...2200.
